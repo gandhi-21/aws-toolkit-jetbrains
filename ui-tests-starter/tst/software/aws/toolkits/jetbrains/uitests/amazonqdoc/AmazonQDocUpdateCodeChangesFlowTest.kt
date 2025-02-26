@@ -14,6 +14,8 @@ import com.intellij.ide.starter.project.LocalProjectInfo
 import com.intellij.ide.starter.runner.CurrentTestMethod
 import com.intellij.ide.starter.runner.Starter
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.kodein.di.DI
@@ -94,6 +96,9 @@ class AmazonQDocUpdateCodeChangesFlowTest {
                 Thread.sleep(30000)
 
                 val result = executeScript(updateReadmeConfirmOptionsTestScript)
+
+                assertTrue(result.contains("found buttons looks for in the text"))
+                assertFalse(result.contains("buttons not found"))
             }
     }
 
@@ -134,6 +139,8 @@ class AmazonQDocUpdateCodeChangesFlowTest {
                 Thread.sleep(30000)
 
                 val result = executeScript(updateReadmeMakeChangesTestScript)
+                assertFalse(result.contains("Could not find the placeholder text"))
+                assertTrue(result.contains("Found documentation change input text"))
             }
     }
 
@@ -173,7 +180,10 @@ class AmazonQDocUpdateCodeChangesFlowTest {
                 waitForProjectOpen()
                 Thread.sleep(30000)
 
-                val result = executeScript(updateReadmeAcceptChangesTestScript)
+                executeScript(updateReadmeAcceptChangesTestScript)
+
+                val readmeContents = File("tstData/Hello/README.md").readText()
+                assertTrue(readmeContents.contains("# Java Minesweeper Game"))
             }
     }
 
