@@ -40,11 +40,18 @@ val specificUpdatesMakeChangesScript = """
                     await page.type('.mynah-chat-prompt-input', 'Add new section titled Programming Languages which describes the programming languages and version of programming language used in this project.')
                     await page.keyboard.press('Enter')
 
-                    await findAndClickButton(page, 'Make changes', true, 90000)
+                    await new Promise(resolve => setTimeout(resolve, 90000));
+
+                    await findAndClickButton(page, 'Make changes', true, 10000)
                     console.log('clicked make changes')
 
                     // ? check describe changes text
-
+                    const makeChangeText = await page.${'$'}('[placeholder="Describe documentation changes"]')
+                    if (!makeChangeText) {
+                      throw new Error('Could not find the placeholder text');
+                    } else {
+                    console.log("Found documentation change input text")
+                    }
                 }
             }
 

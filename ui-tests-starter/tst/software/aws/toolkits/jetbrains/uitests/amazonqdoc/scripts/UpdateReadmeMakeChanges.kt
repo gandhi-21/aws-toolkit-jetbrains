@@ -42,8 +42,12 @@ val updateReadmeMakeChangesScript = """
                     await findAndClickButton(page, 'Make changes', true, 10000)
                     console.log('clicked make changes')
 
-                    // ? check describe changes text
-
+                    const makeChangeText = await page.${'$'}('[placeholder="Describe documentation changes"]')
+                    if (!makeChangeText) {
+                      throw new Error('Could not find the placeholder text');
+                    } else {
+                    console.log("Found documentation change input text")
+                    }
                 }
             }
 
